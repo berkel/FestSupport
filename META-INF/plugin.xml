@@ -1,0 +1,25 @@
+<idea-plugin version="2">
+	<name>Fest Support</name>
+	<description>Fest templater support</description>
+	<version>1.0</version>
+	<vendor email="dmitry@shkinev.ru" url="https://github.com/berkel/FestSupport">Dmitry Shkinev</vendor>
+	<idea-version since-build="1.0"/>
+	<depends>com.intellij.modules.xml</depends>
+
+	<application-components>
+		<!-- Add your application components here -->
+	</application-components>
+
+	<project-components>
+		<!-- Add your project components here -->
+	</project-components>
+
+	<actions>
+		<!-- Add your actions here -->
+	</actions>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<syntaxHighlighter key="XML" implementationClass="org.fest.highlighter.FestFileHighlighter"/>
+		<colorSettingsPage implementation="org.fest.highlighter.FestColorsPage"/>
+	</extensions>
+</idea-plugin>
