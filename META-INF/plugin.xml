@@ -7,15 +7,12 @@
 	<depends>com.intellij.modules.xml</depends>
 
 	<application-components>
-		<!-- Add your application components here -->
 	</application-components>
 
 	<project-components>
-		<!-- Add your project components here -->
 	</project-components>
 
 	<actions>
-		<!-- Add your actions here -->
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
