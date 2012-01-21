@@ -3,8 +3,14 @@ package org.fest.highlighter;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.pages.XMLColorsPage;
-import org.fest.util.FestStrings;
+import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import org.fest.util.FestBundle;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * User: Dmitry Shkinev
@@ -15,9 +21,11 @@ public class FestColorsPage extends XMLColorsPage {
 
 	private static final Logger LOG = Logger.getInstance(FestColorsPage.class.getName());
 
+	private static final String TEMPLATE_LOCATION = "/org/fest/highlighter/color_page_template.xml";
+
 	private static final AttributesDescriptor[] ATTRS = new AttributesDescriptor[]{
-			new AttributesDescriptor(FestStrings.message("options.fest.attribute.descriptor.tag"), FestHighlighterColors.XML_TAG),
-			new AttributesDescriptor(FestStrings.message("options.fest.attribute.descriptor.tag.name"), FestHighlighterColors.XML_TAG_NAME),
+			new AttributesDescriptor(FestBundle.message("options.fest.attribute.descriptor.tag"), FestHighlighterColors.XML_TAG),
+			new AttributesDescriptor(FestBundle.message("options.fest.attribute.descriptor.tag.name"), FestHighlighterColors.XML_TAG_NAME),
 	};
 
 	@NotNull
@@ -27,7 +35,7 @@ public class FestColorsPage extends XMLColorsPage {
 
 	@NotNull
 	public String getDisplayName() {
-		return FestStrings.message("options.fest.display.name");
+		return FestBundle.message("options.fest.display.name");
 	}
 
 	@NotNull
@@ -37,61 +45,12 @@ public class FestColorsPage extends XMLColorsPage {
 
 	@NotNull
 	public String getDemoText() {
-		return "<?xml version=\"1.0\"?>\n" +
-				"<fest:template xmlns:fest=\"http://fest.mail.ru\" context_name=\"json\">\n" +
-				"    <input>\n" +
-				"        <fest:attributes>\n" +
-				"            <fest:if test=\"false\">\n" +
-				"                <fest:attribute name=\"checked\">checked</fest:attribute>\n" +
-				"            </fest:if>\n" +
-				"        </fest:attributes>\n" +
-				"    </input>\n" +
-				"    <div>\n" +
-				"        <fest:choose>\n" +
-				"            <fest:when test=\"false\">foo</fest:when>\n" +
-				"            <fest:otherwise>foo</fest:otherwise>\n" +
-				"        </fest:choose>\n" +
-				"        bar\n" +
-				"    </div>\n" +
-				"    <div>\n" +
-				"        <fest:attributes>\n" +
-				"            <fest:attribute name=\"class\">\n" +
-				"                foo\n" +
-				"                <fest:if test=\"true\">\n" +
-				"                    <fest:text value=\" \"/>bar\n" +
-				"                </fest:if>\n" +
-				"            </fest:attribute>\n" +
-				"        </fest:attributes>\n" +
-				"    </div>\n" +
-				"    <div>\n" +
-				"        <fest:attributes>\n" +
-				"            <fest:attribute name=\"class\">\n" +
-				"                <fest:get name=\"class\"/>\n" +
-				"            </fest:attribute>\n" +
-				"        </fest:attributes>\n" +
-				"    </div>\n" +
-				"    <div>\n" +
-				"        <fest:attributes>\n" +
-				"            <fest:choose>\n" +
-				"                <fest:when test=\"true\">\n" +
-				"                    <fest:attribute name=\"when\">true</fest:attribute>\n" +
-				"                </fest:when>\n" +
-				"                <fest:otherwise>\n" +
-				"                    <fest:attribute name=\"when\">false</fest:attribute>\n" +
-				"                </fest:otherwise>\n" +
-				"            </fest:choose>\n" +
-				"            <fest:choose>\n" +
-				"                <fest:when test=\"false\">\n" +
-				"                    <fest:attribute name=\"otherwise\">false</fest:attribute>\n" +
-				"                </fest:when>\n" +
-				"                <fest:otherwise>\n" +
-				"                    <fest:attribute name=\"otherwise\">true</fest:attribute>\n" +
-				"                </fest:otherwise>\n" +
-				"            </fest:choose>\n" +
-				"        </fest:attributes>\n" +
-				"    </div>\n" +
-				"    <fest:set name=\"class\">foo</fest:set>\n" +
-				"    <div>foo</div>\n" +
-				"</fest:template>";
+		final VirtualFile file = VfsUtil.findFileByURL(getClass().getResource(TEMPLATE_LOCATION));
+		String templateText = "";
+		try {
+			templateText = new String(FileUtil.adaptiveLoadText(new InputStreamReader(file.getInputStream(), file.getCharset())));
+		} catch (IOException e) {
+		}
+		return templateText;
 	}
 }

@@ -22,11 +22,12 @@
 					<sequence>
 						<choice minOccurs="0" maxOccurs="unbounded">
 							<element ref="fest:top-level-element"/>
-							<element ref="fest:char-instruction"/>
+							<element ref="fest:instruction"/>
 							<group ref="fest:result-element"/>
+							<any namespace="##other" processContents="skip"/>
 						</choice>
 					</sequence>
-					<attribute name="context_name" use="required" type="string"/>
+					<attribute name="context_name" use="required" type="fest:QName"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -37,7 +38,7 @@
 			<complexContent>
 				<extension base="fest:anyType">
 					<attribute name="src" type="anyURI" use="required"/>
-					<attribute name="context" type="string"/>
+					<attribute name="context" type="fest:QName"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -53,7 +54,7 @@
 		</complexType>
 	</element>
 
-	<element name="set" substitutionGroup="fest:top-level-element">
+	<element name="set" substitutionGroup="fest:char-instruction">
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
@@ -62,28 +63,21 @@
 							<element ref="fest:script"/>
 							<element ref="fest:value"/>
 							<element ref="fest:get"/>
-							<group ref="fest:result-element"/>
+							<group ref="fest:template"/>
 						</choice>
 					</sequence>
-					<attribute name="name" type="string" use="required"/>
-					<attribute name="test" default="true">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="true"/>
-								<enumeration value="false"/>
-							</restriction>
-						</simpleType>
-					</attribute>
+					<attribute name="name" type="fest:QName" use="required"/>
+					<attribute name="test" default="true" type="fest:expression"/>
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
 
-	<element name="get" substitutionGroup="fest:top-level-element">
+	<element name="get" substitutionGroup="fest:char-instruction">
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
-					<attribute name="name" type="string" use="required"/>
+					<attribute name="name" type="fest:QName" use="required"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -112,7 +106,7 @@
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
-					<attribute name="value" type="string"/>
+					<attribute name="value" type="fest:QName"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -136,13 +130,16 @@
 		</complexType>
 	</element>
 
-	<element name="value" substitutionGroup="fest:top-level-element">
+	<element name="space" substitutionGroup="fest:char-instruction">
+	</element>
+
+	<element name="value" substitutionGroup="fest:char-instruction">
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
 					<attribute name="output" default="text">
 						<simpleType>
-							<restriction base="string">
+							<restriction base="fest:QName">
 								<enumeration value="text"/>
 								<enumeration value="js"/>
 							</restriction>
@@ -159,12 +156,11 @@
 				<extension base="fest:anyType">
 					<sequence>
 						<choice minOccurs="0" maxOccurs="unbounded">
-							<element ref="fest:value"/>
-							<group ref="fest:result-element"/>
+							<group ref="fest:template"/>
 						</choice>
 					</sequence>
-					<attribute name="iterate" type="string" use="required"/>
-					<attribute name="index" type="string" use="required"/>
+					<attributeGroup ref="fest:iterate"/>
+					<attributeGroup ref="fest:index"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -176,13 +172,11 @@
 				<extension base="fest:anyType">
 					<sequence>
 						<choice minOccurs="0" maxOccurs="unbounded">
-							<element ref="fest:foreach"/>
-							<element ref="fest:value"/>
-							<group ref="fest:result-element"/>
+							<group ref="fest:template"/>
 						</choice>
 					</sequence>
-					<attribute name="iterate" type="string" use="required"/>
-					<attribute name="index" type="string" use="required"/>
+					<attributeGroup ref="fest:iterate"/>
+					<attributeGroup ref="fest:index"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -194,27 +188,88 @@
 				<extension base="fest:anyType">
 					<sequence minOccurs="0" maxOccurs="unbounded">
 						<element ref="fest:attribute"/>
+						<element ref="fest:choose"/>
+						<element ref="fest:if"/>
 					</sequence>
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
 
-	<element name="attribute">
+	<element name="attribute" substitutionGroup="fest:instruction">
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
 					<sequence minOccurs="0" maxOccurs="unbounded">
 						<element ref="fest:get"/>
+						<element ref="fest:if"/>
 					</sequence>
-					<attribute name="name" type="string" use="required"/>
+					<attribute name="name" type="fest:QName" use="required"/>
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
 
-	<element name="space" substitutionGroup="fest:char-instruction">
+	<element name="choose" substitutionGroup="fest:char-instruction">
+		<complexType>
+			<complexContent>
+				<extension base="fest:anyType">
+					<sequence>
+						<element ref="fest:when" minOccurs="1" maxOccurs="unbounded"/>
+						<element ref="fest:otherwise" minOccurs="0"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
 	</element>
+
+	<element name="when">
+		<complexType mixed="true">
+			<complexContent>
+				<extension base="fest:anyType">
+					<group ref="fest:template" minOccurs="0" maxOccurs="unbounded"/>
+					<attribute name="test" type="fest:expression" use="required"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="otherwise">
+		<complexType mixed="true">
+			<complexContent>
+				<extension base="fest:anyType">
+					<group ref="fest:template" minOccurs="0" maxOccurs="unbounded"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="if" substitutionGroup="fest:char-instruction">
+		<complexType mixed="true">
+			<complexContent>
+				<extension base="fest:anyType">
+					<group ref="fest:template" minOccurs="0" maxOccurs="unbounded"/>
+					<attribute name="test" type="fest:expression" use="required"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<attributeGroup name="iterate">
+		<attribute name="iterate" type="fest:QName" use="required"/>
+	</attributeGroup>
+
+	<attributeGroup name="index">
+		<attribute name="index" type="fest:QName" use="required"/>
+	</attributeGroup>
+
+	<group name="template">
+		<choice>
+			<element ref="fest:top-level-element-and-char-instruction"/>
+			<element ref="fest:instruction"/>
+			<group ref="fest:result-element"/>
+		</choice>
+	</group>
 
 	<group name="result-element">
 		<choice>
@@ -224,14 +279,17 @@
 		</choice>
 	</group>
 
-	<complexType name="Flow">
-		<choice>
-			<group ref="html:block"/>
-		</choice>
-	</complexType>
-
 	<complexType name="anyType">
 		<anyAttribute namespace="##other" processContents="skip"/>
 	</complexType>
+
+	<simpleType name="expression">
+		<restriction base="string">
+		</restriction>
+	</simpleType>
+
+	<simpleType name="QName">
+		<union memberTypes="NCName QName string"/>
+	</simpleType>
 
 </schema>

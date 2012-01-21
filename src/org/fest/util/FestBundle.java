@@ -13,12 +13,12 @@ import java.util.ResourceBundle;
  * Date: 15.01.12
  * Time: 13:04
  */
-public class FestStrings {
+public class FestBundle {
 
 	private static Reference<ResourceBundle> ourBundle;
 
 	@NonNls
-	private static final String BUNDLE = "org.fest.fest";
+	private static final String BUNDLE = "org.fest.util.FestBundle";
 
 	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
 		return CommonBundle.message(getBundle(), key, params);
