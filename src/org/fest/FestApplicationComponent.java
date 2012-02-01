@@ -2,6 +2,7 @@ package org.fest;
 
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
+import com.intellij.navigation.ChooseByNameRegistry;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.util.io.FileUtil;
@@ -20,7 +21,7 @@ import java.io.InputStreamReader;
 public class FestApplicationComponent implements ApplicationComponent {
 
 	private static final String FEST_TEMPLATE_NAME = "Fest template";
-	private static final String FEST_TEMPLATE_LOCATION = "/template.xml";
+	private static final String FEST_TEMPLATE_LOCATION = "/new_file_template.xml";
 
 	public FestApplicationComponent() {
 	}

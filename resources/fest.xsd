@@ -2,7 +2,6 @@
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 		xmlns:fest="http://fest.mail.ru"
-		xmlns:html="http://www.w3.org/1999/xhtml"
 		targetNamespace="http://fest.mail.ru"
 		elementFormDefault="qualified">
 
@@ -21,6 +20,7 @@
 				<extension base="fest:anyType">
 					<sequence>
 						<choice minOccurs="0" maxOccurs="unbounded">
+							<element ref="fest:top-level-element-and-char-instruction"/>
 							<element ref="fest:top-level-element"/>
 							<element ref="fest:instruction"/>
 							<group ref="fest:result-element"/>
@@ -33,7 +33,7 @@
 		</complexType>
 	</element>
 
-	<element name="include" substitutionGroup="fest:top-level-element">
+	<element name="include" substitutionGroup="fest:top-level-element-and-char-instruction">
 		<complexType>
 			<complexContent>
 				<extension base="fest:anyType">
@@ -92,7 +92,7 @@
 		</complexType>
 	</element>
 
-	<element name="script" substitutionGroup="fest:top-level-element">
+	<element name="script" substitutionGroup="fest:top-level-element-and-char-instruction">
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
@@ -116,6 +116,11 @@
 		<complexType mixed="true">
 			<complexContent>
 				<extension base="fest:anyType">
+					<sequence>
+						<choice minOccurs="0" maxOccurs="unbounded">
+							<group ref="fest:template"/>
+						</choice>
+					</sequence>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -145,6 +150,14 @@
 							</restriction>
 						</simpleType>
 					</attribute>
+					<attribute name="safe" default="true">
+						<simpleType>
+							<restriction base="fest:QName">
+								<enumeration value="true"/>
+								<enumeration value="false"/>
+							</restriction>
+						</simpleType>
+					</attribute>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -159,8 +172,7 @@
 							<group ref="fest:template"/>
 						</choice>
 					</sequence>
-					<attributeGroup ref="fest:iterate"/>
-					<attributeGroup ref="fest:index"/>
+					<attributeGroup ref="fest:foreach"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -175,8 +187,7 @@
 							<group ref="fest:template"/>
 						</choice>
 					</sequence>
-					<attributeGroup ref="fest:iterate"/>
-					<attributeGroup ref="fest:index"/>
+					<attributeGroup ref="fest:foreach"/>
 				</extension>
 			</complexContent>
 		</complexType>
@@ -201,8 +212,7 @@
 			<complexContent>
 				<extension base="fest:anyType">
 					<sequence minOccurs="0" maxOccurs="unbounded">
-						<element ref="fest:get"/>
-						<element ref="fest:if"/>
+						<group ref="fest:template"/>
 					</sequence>
 					<attribute name="name" type="fest:QName" use="required"/>
 				</extension>
@@ -255,12 +265,11 @@
 		</complexType>
 	</element>
 
-	<attributeGroup name="iterate">
+	<attributeGroup name="foreach">
 		<attribute name="iterate" type="fest:QName" use="required"/>
-	</attributeGroup>
-
-	<attributeGroup name="index">
 		<attribute name="index" type="fest:QName" use="required"/>
+		<attribute name="from" type="fest:QName" use="optional"/>
+		<attribute name="to" type="fest:QName" use="optional"/>
 	</attributeGroup>
 
 	<group name="template">

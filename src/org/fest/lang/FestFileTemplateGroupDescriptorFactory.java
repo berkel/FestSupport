@@ -1,4 +1,4 @@
-package org.fest;
+package org.fest.lang;
 
 import com.intellij.ide.fileTemplates.FileTemplateDescriptor;
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor;
@@ -12,11 +12,12 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
  */
 public class FestFileTemplateGroupDescriptorFactory implements FileTemplateGroupDescriptorFactory {
 
-	public static final String FILE_TEMPLATE = "/org/fest/highlighter/color_page_template.xml";
+	private static final String FEST_TEMPLATE_NAME = "Fest template";
+	private static final String FEST_TEMPLATE_LOCATION = "/new_file_template.xml";
 
 	public FileTemplateGroupDescriptor getFileTemplatesDescriptor() {
 		final FileTemplateGroupDescriptor group = new FileTemplateGroupDescriptor("Fest", StdFileTypes.XML.getIcon());
-		group.addTemplate(new FileTemplateDescriptor(FILE_TEMPLATE, StdFileTypes.XML.getIcon()));
+		group.addTemplate(new FileTemplateDescriptor(FEST_TEMPLATE_LOCATION, StdFileTypes.XML.getIcon()));
 		return group;
 	}
 }
