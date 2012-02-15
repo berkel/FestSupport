@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class FestUtil {
 
 	public static final String FEST_NS = "http://fest.mail.ru";
-	public static final String FEST_SCHEMA_LOCATION = "/fest.xsd";
+	public static final String FEST_SCHEMA_LOCATION = "/resources/fest.xsd";
 	public static final String PLUGIN_EXTENSIONS_NS = "urn:idea:fest-plugin#extensions";
 
 	public static boolean isFestTag(@NotNull XmlTag tag) {
@@ -25,7 +25,8 @@ public class FestUtil {
 	}
 
 	public static boolean isIncludeOrInsertHref(XmlAttribute xmlattribute) {
-		if (xmlattribute == null || !isFestAttribute(xmlattribute)) return false;
+		if (xmlattribute == null || !isFestAttribute(xmlattribute))
+            return false;
 		final String localName = xmlattribute.getParent().getLocalName();
 		return isIncludeOrInsert(localName) && "src".equals(xmlattribute.getName());
 	}
