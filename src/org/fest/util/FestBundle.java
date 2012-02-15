@@ -18,7 +18,7 @@ public class FestBundle {
 	private static Reference<ResourceBundle> ourBundle;
 
 	@NonNls
-	private static final String BUNDLE = "org.fest.util.FestBundle";
+	private static final String BUNDLE = "resources.org.fest.util.FestBundle";
 
 	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
 		return CommonBundle.message(getBundle(), key, params);
