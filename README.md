@@ -1,7 +1,7 @@
 Fest templater support
 =============
 
-JetBrains PhpStorm plugin for Fest templater support (https://github.com/AndrewSumin/Fest).
+JetBrains PhpStorm plugin for Fest templater support (https://github.com/mailru/fest).
 
 Screenshots
 -------
