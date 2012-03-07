@@ -20,13 +20,18 @@ public class FestUtil {
 		return FEST_NS.equals(s);
 	}
 
+	public static boolean isFestTag(@NotNull XmlTag tag, String name) {
+		return isFestTag(tag) && name.equals(tag.getLocalName());
+	}
+
 	public static boolean isFestAttribute(@NotNull XmlAttribute attribute) {
 		return isFestTag(attribute.getParent());
 	}
 
 	public static boolean isIncludeOrInsertHref(XmlAttribute xmlattribute) {
-		if (xmlattribute == null || !isFestAttribute(xmlattribute))
-            return false;
+		if (xmlattribute == null || !isFestAttribute(xmlattribute)) {
+			return false;
+		}
 		final String localName = xmlattribute.getParent().getLocalName();
 		return isIncludeOrInsert(localName) && "src".equals(xmlattribute.getName());
 	}

@@ -7,7 +7,7 @@
 			Fest templater (<a href="https://github.com/mailru/fest">https://github.com/mailru/fest</a>) support<br/>
 		]]>
 	</description>
-	<version>1.3.1</version>
+	<version>1.3.2</version>
 	<vendor email="dmitry@shkinev.ru">Dmitry Shkinev</vendor>
 
 	<idea-version since-build="5784"/>
@@ -15,6 +15,19 @@
 	<change-notes>
 		<![CDATA[
 			<dl>
+				<dt><b>1.3</b></dt>
+				<dd>
+					<ul>
+						<li>Add new inspection (Nested attributes tag)</li>
+						<li>Restructuring XSD</li>
+					</ul>
+				</dd>
+				<dt><b>1.2</b></dt>
+				<dd>
+					<ul>
+						<li>Refactoring</li>
+					</ul>
+				</dd>
 				<dt><b>1.1</b></dt>
 				<dd>
 					<ul>
@@ -34,7 +47,7 @@
 
 	<depends>com.intellij.modules.xml</depends>
 
-	<!--<resource-bundle>org.fest.util.FestBundle</resource-bundle>-->
+	<resource-bundle>resources.org.fest.util.FestBundle</resource-bundle>
 
 	<application-components>
 		<component>
@@ -57,6 +70,14 @@
 		<standardResourceProvider implementation="org.fest.lang.FestInternalResourceProvider"/>
 		<psi.referenceContributor implementation="org.fest.lang.FestReferenceContributor"/>
 		<!--<fileTemplateGroup implementation="org.fest.lang.FestFileTemplateGroupDescriptorFactory"/>-->
+
+		<localInspection shortName="FestNestedAttributes"
+						 displayName="Fest nested attributes"
+						 groupName="Fest"
+						 language="XML"
+						 enabledByDefault="true"
+						 level="ERROR"
+						 implementationClass="org.fest.lang.validation.inspections.FestNestedAttributesInspection"/>
 	</extensions>
 
 	<module-components>
