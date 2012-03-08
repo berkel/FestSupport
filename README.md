@@ -26,4 +26,5 @@ Screenshots
 Plugin for deployment
 -------
 
-https://github.com/berkel/FestSupport/raw/master/FestSupport.jar
+* https://github.com/berkel/FestSupport/raw/master/FestSupport.jar
+* http://plugins.intellij.net/plugin/?idea&id=6867
