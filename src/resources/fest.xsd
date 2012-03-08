@@ -180,17 +180,10 @@
 					<group ref="fest:all"/>
 				</choice>
 			</sequence>
-			<attributeGroup ref="fest:if"/>
+			<attribute name="test" type="string" use="required"/>
 		</complexType>
 	</element>
 
-	<attributeGroup name="attribute">
-		<attribute name="name" type="string" use="required"/>
-	</attributeGroup>
-
-	<attributeGroup name="if">
-		<attribute name="test" type="string" use="required"/>
-	</attributeGroup>
 
 	<attributeGroup name="foreach">
 		<attribute name="iterate" type="string" use="required"/>
@@ -202,6 +195,7 @@
 	<group name="result-element">
 		<choice>
 			<any namespace="##local" processContents="skip"/>
+			<any namespace="##other" processContents="skip"/>
 		</choice>
 	</group>
 
